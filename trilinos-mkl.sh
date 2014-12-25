@@ -1,6 +1,6 @@
 SRC=trilinos
 
-REV=`cd $SRC; git branch -v | head -n 1 | awk '{print $3}'`
+REV=`cd $SRC; git branch -v | awk '{print $3}'`
 
 if [ ! -d $SRC/build-$REV ]; then
     mkdir $SRC/build-$REV 
@@ -10,12 +10,19 @@ cd $SRC/build-$REV
 DST_INST=$MATHLAB/$SRC-$REV
 
 cmake \
--G Ninja \
 -D CMAKE_BUILD_TYPE:STRING=RELEASE \
 -D TrilinosFramework_ENABLE_MPI:BOOL=ON \
 -D TPL_ENABLE_MPI:BOOL=ON \
 -D TPL_ENABLE_Netcdf:BOOL=OFF \
 -D CMAKE_INSTALL_PREFIX:PATH=$DST_INST \
+-D BLAS_LIBRARY_DIRS:FILEPATH="${MKLROOT}/lib/intel64" \
+-D BLAS_LIBRARY_NAMES:STRING="mkl_rt" \
+-D LAPACK_LIBRARY_DIRS:FILEPATH="${MKLROOT}/lib/intel64" \
+-D LAPACK_LIBRARY_NAMES:STRING="mkl_rt" \
+-D TPL_ENABLE_MKL:BOOL=ON \
+-D MKL_LIBRARY_DIRS:FILEPATH="${MKLROOT}/lib/intel64" \
+-D MKL_LIBRARY_NAMES:STRING="mkl_rt" \
+-D MKL_INCLUDE_DIRS:FILEPATH="${MKLROOT}/include" \
 -D Trilinos_ENABLE_OpenMP:BOOL=OFF \
 -D BUILD_SHARED_LIBS:BOOL=ON \
 -D Trilinos_ENABLE_Fortran:BOOL=ON \
@@ -45,4 +52,4 @@ cmake \
 -D Trilinos_ENABLE_TrilinosCouplings:BOOL=ON \
 ..
 
-ninja -j$NP install
+make -j40 install

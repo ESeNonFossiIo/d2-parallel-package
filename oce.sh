@@ -1,6 +1,6 @@
 SRC=oce
 
-REV=`cd $SRC; git branch -v | awk '{print $3}'`
+REV=`cd $SRC; git branch -v | head -n 1 | awk '{print $3}'`
 
 if [ ! -d $SRC/build-$REV ]; then
     mkdir $SRC/build-$REV 
@@ -10,6 +10,7 @@ cd $SRC/build-$REV
 DST_INST=$MATHLAB/$SRC-$REV
 
 cmake \
+    -GNinja \
     -DOCE_INSTALL_PREFIX=$DST_INST \
     -DOCE_BUILD_SHARED_LIB:BOOL=ON \
     -DOCE_BUILD_TYPE:STRING=Release \
@@ -27,4 +28,4 @@ cmake \
     -DOCE_WITH_OPENCL:BOOL=OFF \
     ..
 
-make -j40 install
+ninja -j$NP install

@@ -1,6 +1,6 @@
 SRC=slepc
 
-REV=`cd $SRC; git branch -v | awk '{print $3}'`
+REV=`cd $SRC; git branch -v | head -n 1 | awk '{print $3}'`
 
 unset SLEPC_DIR
 

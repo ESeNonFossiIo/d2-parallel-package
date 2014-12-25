@@ -1,6 +1,6 @@
 SRC=p4est
 
-REV=`cd $SRC; git branch -v | awk '{print $3}'`
+REV=`cd $SRC; git branch -v | head -n 1 | awk '{print $3}'`
 
 cd $SRC
 DST_INST=$MATHLAB/$SRC-$REV
@@ -10,4 +10,4 @@ DST_INST=$MATHLAB/$SRC-$REV
   --enable-mpi \
   --without-blas \
   --without-lapack 
-make -j12 install
+make -j$NP install

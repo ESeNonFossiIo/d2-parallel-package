@@ -1,27 +1,22 @@
 [submodule "dealii"]
-	path = dealii
-	url = git@github.com:dealii/dealii.git
-
-[submodule "trilinos"]
-	path = trilinos
-	url = https://software.sandia.gov/trilinos/repositories/publicTrilinos
-
-[submodule "petsc"]
-	path = petsc
-	url = https://bitbucket.org/petsc/petsc
+    path = dealii
+    url = git@github.com:dealii/dealii.git
 
 [submodule "slepc"]
 	path = slepc
 	url = https://bitbucket.org/slepc/slepc
-
 [submodule "p4est"]
 	path = p4est
-	url = git@github.com:cburstedde/p4est.git 
-
-[submodule "oce"]
-	path = oce
-	url = git@github.com:cburstedde/p4est.git 
-
+	url = git@github.com:cburstedde/p4est.git
+[submodule "petsc"]
+	path = petsc
+	url = https://bitbucket.org/petsc/petsc
 [submodule "aspect"]
 	path = aspect
 	url = git@github.com:luca-heltai/aspect.git
+[submodule "oce"]
+	path = oce
+	url = git@github.com:tpaviot/oce.git
+[submodule "trilinos"]
+	path = trilinos
+	url = https://software.sandia.gov/trilinos/repositories/publicTrilinos

@@ -14,6 +14,6 @@ cmake \
 -DCMAKE_INSTALL_PREFIX:PATH=$DST_INST \
 ..
 
-ninja -j40 install
-# ninja -j40 setup_tests
-# ctest -j40 -V -S ../tests/run_testsuite.cmake 
+ninja -j$NP install
+# ninja -j$NP setup_tests
+# ctest -j$NP -V -S ../tests/run_testsuite.cmake 
