@@ -1,6 +1,6 @@
 SRC=trilinos
 
-REV=`cd $SRC; git branch -v | head -n 1 | awk '{print $3}'`
+REV=`cd $SRC; git branch -v | grep \* | awk '{print $3}'`
 
 if [ ! -d $SRC/build-$REV ]; then
     mkdir $SRC/build-$REV 
@@ -10,15 +10,14 @@ cd $SRC/build-$REV
 DST_INST=$MATHLAB/$SRC-$REV
 
 cmake \
--G Ninja \
 -D CMAKE_BUILD_TYPE:STRING=RELEASE \
+-D TPL_ENABLE_Boost:BOOL=OFF \
 -D TrilinosFramework_ENABLE_MPI:BOOL=ON \
 -D TPL_ENABLE_MPI:BOOL=ON \
 -D TPL_ENABLE_Netcdf:BOOL=OFF \
 -D CMAKE_INSTALL_PREFIX:PATH=$DST_INST \
 -D Trilinos_ENABLE_OpenMP:BOOL=OFF \
 -D BUILD_SHARED_LIBS:BOOL=ON \
--D Trilinos_ENABLE_Fortran:BOOL=ON \
 -D Trilinos_WARNINGS_AS_ERRORS_FLAGS:STRING="" \
 -D CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE \
 -D Trilinos_ASSERT_MISSING_PACKAGES:BOOL=OFF \
@@ -45,4 +44,4 @@ cmake \
 -D Trilinos_ENABLE_TrilinosCouplings:BOOL=ON \
 ..
 
-ninja -j$NP install
+make -j$NP install

@@ -9,5 +9,6 @@ DST_INST=$MATHLAB/$SRC-$REV
   --prefix=$DST_INST \
   --enable-mpi \
   --without-blas \
+  --disable-vtk-binary \
   --without-lapack 
 make -j$NP install
