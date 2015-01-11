@@ -5,7 +5,7 @@ REV=`cd $SRC; git branch -v | head -n 1 | awk '{print $3}'`
 unset SLEPC_DIR
 
 cd $SRC
-DST_INST=$MATHLAB/$SRC-$REV
+DST_INST=$OPT_INST/$SRC-$REV
 
 ./configure --prefix=$DST_INST
 make SLEPC_DIR=`pwd` 

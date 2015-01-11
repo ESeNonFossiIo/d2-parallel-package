@@ -7,7 +7,7 @@ if [ ! -d $SRC/build-$REV ]; then
 fi
 
 cd $SRC/build-$REV 
-DST_INST=$MATHLAB/$SRC-$REV
+DST_INST=$OPT_INST/$SRC-$REV
 
 cmake \
 -D CMAKE_BUILD_TYPE:STRING=RELEASE \

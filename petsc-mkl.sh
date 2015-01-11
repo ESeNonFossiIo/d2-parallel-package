@@ -14,7 +14,7 @@ export EXT=/home/heltai/src/petsc-external
 ./configure \
   --with-make-np=40 \
   --with-debugging=0 \
-  --prefix=$MATHLAB/petsc-$REV \
+  --prefix=$OPT_INST/petsc-$REV \
   --with-mpi-dir=$MPI_HOME \
   --with-shared-libraries \
   --with-external-packages-dir=$EXT \
@@ -32,5 +32,5 @@ export EXT=/home/heltai/src/petsc-external
 
 make PETSC_DIR=`pwd` PETSC_ARCH=uly all
 make PETSC_DIR=`pwd` PETSC_ARCH=uly install
-make PETSC_DIR=$MATHLAB/petsc-$REV PETSC_ARCH= test
-make PETSC_DIR=$MATHLAB/petsc-$REV PETSC_ARCH= streams NPMAX=20
+make PETSC_DIR=$OPT_INST/petsc-$REV PETSC_ARCH= test
+make PETSC_DIR=$OPT_INST/petsc-$REV PETSC_ARCH= streams NPMAX=20
