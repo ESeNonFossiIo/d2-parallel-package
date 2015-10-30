@@ -11,7 +11,9 @@ DST_INST=$OPT_INST/$SRC-$REV
 
 cmake \
 -D CMAKE_BUILD_TYPE:STRING=RELEASE \
--D TPL_ENABLE_Boost:BOOL=OFF \
+-D TPL_ENABLE_Boost:BOOL=ON \
+-D Boost_INCLUDE_DIRS:PATH=$BOOST_ROOT/include \
+-D TPL_ENABLE_BoostLib:BOOL=OFF \
 -D TrilinosFramework_ENABLE_MPI:BOOL=ON \
 -D TPL_ENABLE_MPI:BOOL=ON \
 -D TPL_ENABLE_Netcdf:BOOL=OFF \
@@ -27,6 +29,7 @@ cmake \
 -D Trilinos_ENABLE_Epetra:BOOL=ON \
 -D Trilinos_ENABLE_EpetraExt:BOOL=ON \
 -D Trilinos_ENABLE_Tpetra:BOOL=ON \
+-D Trilinos_ENABLE_STK:BOOL=OFF \
 -D Trilinos_ENABLE_Jpetra:BOOL=ON \
 -D Trilinos_ENABLE_Kokkos:BOOL=ON \
 -D Trilinos_ENABLE_Sacado:BOOL=ON \

@@ -2,16 +2,18 @@ SRC=dealii
 
 REV=`cd $SRC; git branch -v | grep \* | awk '{print $3}'`
 
-if [ ! -d $SRC/build-pack ]; then
-    mkdir $SRC/build-pack
+export CC=`which cc`
+export CXX=`which c++`
+
+if [ ! -d $SRC/build-pack-serial ]; then
+    mkdir $SRC/build-pack-serial
 fi
 
-cd $SRC/build-pack
+cd $SRC/build-pack-serial
 DST_INST=${OPT_INST/opt/}
 
 cmake \
 -GNinja \
--DDEAL_II_CPACK_EXTERNAL_LIBS_TREE:PATH=$OPT_INST \
 -DCMAKE_INSTALL_PREFIX:PATH=$DST_INST \
 -DDEAL_II_COMPONENT_PACKAGE:BOOL=ON \
 ..

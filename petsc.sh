@@ -3,6 +3,7 @@ unset PETSC_ARCH
 unset CC
 unset CXX
 unset F77
+unset F90
 unset FC
 
 export EXT=`pwd`/petsc-external
@@ -15,6 +16,7 @@ export REV=`git branch -v | grep \* | awk '{print $3}'`
   --with-debugging=0 \
   --prefix=$OPT_INST/petsc-$REV \
   --with-mpi-dir=$MPI_HOME \
+  --with-sundials-dir=$SUNDIALS_DIR \
   --with-shared-libraries \
   --with-external-packages-dir=$EXT \
   --download-parmetis \
@@ -22,7 +24,6 @@ export REV=`git branch -v | grep \* | awk '{print $3}'`
   --download-hypre \
   --download-mumps \
   --download-scalapack \
-  --download-sundials \
   --download-superlu \
   --download-superlu_dist \
   --download-hdf5
