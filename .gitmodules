@@ -20,3 +20,9 @@
 [submodule "trilinos"]
 	path = trilinos
 	url = https://software.sandia.gov/trilinos/repositories/publicTrilinos
+[submodule "deal2lkit"]
+	path = deal2lkit
+	url = git@github.com:mathLab/deal2lkit.git
+[submodule "ninja"]
+	path = ninja
+	url = https://github.com/martine/ninja
