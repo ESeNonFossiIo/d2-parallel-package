@@ -11,7 +11,7 @@ if [ ! -d $SRC/build ]; then
 
     cmake \
     -GNinja \
-    -DCMAKE_INSTALL_PREFIX:PATH=$OPT_INST \
+    -DCMAKE_INSTALL_PREFIX:PATH=$DST_INST \
     ..
 
     ninja -j$NP install
