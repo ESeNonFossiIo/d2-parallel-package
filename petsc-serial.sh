@@ -11,14 +11,14 @@ cd petsc
 export PETSC_ARCH=uly
 export REV=`git branch -v | grep \* | awk '{print $3}'`
 
-./configure \
+python2 ./configure \
   --with-make-np=$NP \
   --with-debugging=0 \
   --prefix=$OPT_INST/petsc-$REV \
-  --with-sundials-dir=$SUNDIALS_DIR \
   --with-shared-libraries \
   --with-external-packages-dir=$EXT \
   --download-parmetis \
+  --download-openmpi \
   --download-metis \
   --download-hypre \
   --download-mumps \
