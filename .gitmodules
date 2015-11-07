@@ -29,3 +29,6 @@
 [submodule "assimp"]
 	path = assimp
 	url = git@github.com:assimp/assimp.git
+[submodule "arpack-ng"]
+	path = arpack-ng
+	url = https://github.com/opencollab/arpack-ng
