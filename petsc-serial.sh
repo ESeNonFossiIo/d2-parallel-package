@@ -11,7 +11,7 @@ cd petsc
 export PETSC_ARCH=uly
 export REV=`git branch -v | grep \* | awk '{print $3}'`
 
-python2 ./configure \
+./configure \
   --with-make-np=$NP \
   --with-debugging=0 \
   --prefix=$OPT_INST/petsc-$REV \
