@@ -1,0 +1,63 @@
+DST=`dirname $BASH_SOURCE`
+
+if [ -z "$DST" ]; then 
+    echo Need a destination directory
+    return 1
+fi
+
+#echo "Assuming everything is on $DST" 
+
+function add_to_path 
+{
+    if [ -d "$1" ] && [[ ! "$PATH" =~ (^|:)"$1"(:|$) ]]; then
+        export PATH=$1:$PATH
+        #echo Added $1 to PATH
+    fi;
+}
+
+#function add_to_lib
+#{
+#    if [ -d "$1" ] && [[ ! "$DYLD_LIBRARY_PATH" =~ (^|:)"$1"(:|$) ]]; then
+#        export DYLD_LIBRARY_PATH=$1:$DYLD_LIBRARY_PATH
+#        #echo Added $1 to DYLD_LIBRARY_PATH
+#    fi;
+#}
+#
+# Export the above two functions
+export -f add_to_path
+#export -f add_to_lib
+
+DIRS=`ls -d $DST/*/`
+
+for dir in $DIRS; do
+    # Remove last charcater (the "/")
+    d="${dir%?}"  
+    name=`basename $d | awk -F "-" '{print toupper($1)}'`
+    export ${name}_DIR=$d
+#    add_to_lib "$d/lib"
+    add_to_path "$d/bin"
+    #echo "Setting $name=$d"
+done
+
+# Additional libraries downloaded within PETSc
+export PETSC_ARCH=""
+export OPENMPI_DIR=$PETSC_DIR
+export HDF5_DIR=$PETSC_DIR
+export METIS_DIR=$PETSC_DIR
+export PARMETIS_DIR=$PETSC_DIR
+export SUPERLU_DIST_DIR=$PETSC_DIR
+export SUPERLU_DIR=$PETSC_DIR
+export SCALAPACK_DIR=$PETSC_DIR
+export MUMPS_DIR=$PETSC_DIR
+export HYPRE_DIR=$PETSC_DIR
+
+if [ ! -z "`which mpicc`" ]; then 
+    export CC=`which mpicc`
+    export CXX=`which mpic++`
+    export F77=`which mpif77`
+    export FC=`which mpif77`
+    export F90=`which mpif90`
+    export MPI_HOME=$OPENMPI_DIR
+fi
+
+export D2K_DIR=$DEAL2LKIT_DIR

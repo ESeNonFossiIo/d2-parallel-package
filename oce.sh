@@ -1,12 +1,12 @@
 SRC=oce
 
-REV=`cd $SRC; git branch -v | head -n 1 | awk '{print $3}'`
+REV=`cd $SRC; git branch -v | grep \* | awk '{print $3}'`
 
 if [ ! -d $SRC/build-$REV ]; then
     mkdir $SRC/build-$REV 
 fi
 
-cd $SRC/build-$REV 
+cd $SRC/build-$REV
 DST_INST=$OPT_INST/$SRC-$REV
 
 cmake \
