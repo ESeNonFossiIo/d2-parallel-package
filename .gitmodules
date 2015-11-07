@@ -32,3 +32,6 @@
 [submodule "arpack-ng"]
 	path = arpack-ng
 	url = https://github.com/opencollab/arpack-ng
+[submodule "sundials"]
+	path = sundials
+	url = git@github.com:luca-heltai/sundials.git

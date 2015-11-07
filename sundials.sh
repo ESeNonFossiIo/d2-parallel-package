@@ -1,7 +1,6 @@
-REV=2.6.2
-SRC=sundials-$REV
+SRC=sundials
 
-# REV=`cd $SRC; git branch -v | grep \* | awk '{print $3}'`
+REV=`cd $SRC; git branch -v | grep \* | awk '{print $3}'`
 
 if [ ! -d $SRC/build-$REV ]; then
     mkdir $SRC/build-$REV

@@ -55,5 +55,3 @@ Start another terminal. Then proceed with
 
 If everything went well, then you should have in `summary.log` of deal.II and deal2lkit
 almost all external libraries enabled.
-
-Sundials has to be downloaded manually and extracted to the source directory.
