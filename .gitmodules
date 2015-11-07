@@ -26,3 +26,6 @@
 [submodule "ninja"]
 	path = ninja
 	url = https://github.com/martine/ninja
+[submodule "assimp"]
+	path = assimp
+	url = git@github.com:assimp/assimp.git

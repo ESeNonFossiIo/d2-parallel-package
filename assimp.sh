@@ -1,4 +1,4 @@
-SRC=dealii
+SRC=assimp
 
 REV=`cd $SRC; git branch -v | grep \* | awk '{print $3}'`
 

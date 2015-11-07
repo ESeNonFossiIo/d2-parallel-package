@@ -10,7 +10,6 @@ cd $SRC/build-$REV
 DST_INST=$OPT_INST/$SRC-$REV
 
 cmake \
-    -GNinja \
     -DOCE_INSTALL_PREFIX=$DST_INST \
     -DOCE_BUILD_SHARED_LIB:BOOL=ON \
     -DOCE_BUILD_TYPE:STRING=Release \
@@ -28,4 +27,4 @@ cmake \
     -DOCE_WITH_OPENCL:BOOL=OFF \
     ..
 
-ninja -j$NP install
+make -j$NP install
