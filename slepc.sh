@@ -7,7 +7,7 @@ unset SLEPC_DIR
 cd $SRC
 DST_INST=$OPT_INST/$SRC-$REV
 
-python2 ./configure --prefix=$DST_INST
+./configure --prefix=$DST_INST
 make SLEPC_DIR=`pwd` 
 make SLEPC_DIR=`pwd` install
 make SLEPC_DIR=$DST_INST test
