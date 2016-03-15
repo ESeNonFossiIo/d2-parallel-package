@@ -1,6 +1,6 @@
 SRC=arpack-ng
 
-REV=`cd $SRC; git branch -v | grep \* | awk '{print $3}'`
+REV=`cd $SRC; git show-ref --hash --abbrev HEAD`
 
 cd $SRC
 DST_INST=$OPT_INST/$SRC-$REV

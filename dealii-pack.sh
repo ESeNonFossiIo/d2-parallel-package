@@ -1,12 +1,12 @@
 SRC=dealii
 
-REV=`cd $SRC; git branch -v | grep \* | awk '{print $3}'`
+REV=`cd $SRC; git show-ref --hash --abbrev HEAD`
 
-if [ ! -d $SRC/build-pack ]; then
-    mkdir $SRC/build-pack
+if [ ! -d $SRC/build-pack$1 ]; then
+    mkdir $SRC/build-pack$1
 fi
 
-cd $SRC/build-pack
+cd $SRC/build-pack$1
 DST_INST=${OPT_INST/opt/}
 
 cmake \

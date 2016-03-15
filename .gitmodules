@@ -19,7 +19,7 @@
 	url = git@github.com:tpaviot/oce.git
 [submodule "trilinos"]
 	path = trilinos
-	url = https://software.sandia.gov/trilinos/repositories/publicTrilinos
+	url = git@github.com:trilinos/Trilinos.git
 [submodule "deal2lkit"]
 	path = deal2lkit
 	url = git@github.com:mathLab/deal2lkit.git
@@ -35,3 +35,6 @@
 [submodule "sundials"]
 	path = sundials
 	url = git@github.com:luca-heltai/sundials.git
+[submodule "pfft"]
+	path = pfft
+	url = git@github.com:mpip/pfft.git

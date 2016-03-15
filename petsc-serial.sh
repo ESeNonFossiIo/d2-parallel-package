@@ -9,7 +9,7 @@ unset FC
 export EXT=`pwd`/petsc-external
 cd petsc
 export PETSC_ARCH=uly
-export REV=`git branch -v | grep \* | awk '{print $3}'`
+export REV=`cd $SRC; git show-ref --hash --abbrev HEAD`
 
 ./configure \
   --with-make-np=$NP \

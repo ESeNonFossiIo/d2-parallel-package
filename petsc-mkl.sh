@@ -7,8 +7,7 @@ unset FC
 
 cd petsc
 export PETSC_ARCH="uly"
-export REV=`git branch -v | grep \* | awk '{print $3}'`
-export REV=`git branch -v | head -n 1 | awk '{print $3}'`
+export REV=`cd $SRC; git show-ref --hash --abbrev HEAD`
 export EXT=/home/heltai/src/petsc-external
 
 ./configure \

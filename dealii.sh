@@ -1,6 +1,6 @@
 SRC=dealii
 
-REV=`cd $SRC; git branch -v | grep \* | awk '{print $3}'`
+REV=`cd $SRC; git show-ref --hash --abbrev HEAD`
 
 if [ ! -d $SRC/build-$REV ]; then
     mkdir $SRC/build-$REV

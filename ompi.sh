@@ -1,4 +1,9 @@
-SRC=aspect
+SRC=ompi
+
+unset CXX
+unset CC
+unset F77
+unset FC
 
 REV=`cd $SRC; git show-ref --hash --abbrev HEAD`
 
@@ -10,10 +15,9 @@ cd $SRC/build-$REV
 DST_INST=$OPT_INST/$SRC-$REV
 
 cmake \
--GNinja \
 -DCMAKE_INSTALL_PREFIX:PATH=$DST_INST \
 ..
 
-ninja -j$NP
-# ninja -j40 setup_tests
-# ctest -j40 -V -S ../tests/run_testsuite.cmake 
+make -j$NP install
+# ninja -j$NP setup_tests
+# ctest -j$NP -V -S ../tests/run_testsuite.cmake 
