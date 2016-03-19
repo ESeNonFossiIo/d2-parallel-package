@@ -1,40 +1,43 @@
-[submodule "dealii"]
-    path = dealii
-    url = git@github.com:dealii/dealii.git
 
 [submodule "slepc"]
-	path = slepc
+	path = _build/slepc
 	url = https://bitbucket.org/slepc/slepc
 [submodule "p4est"]
-	path = p4est
+	path = _build/p4est
 	url = git@github.com:cburstedde/p4est.git
 [submodule "petsc"]
-	path = petsc
+	path = _build/petsc
 	url = https://bitbucket.org/petsc/petsc
 [submodule "aspect"]
-	path = aspect
+	path = _build/aspect
 	url = git@github.com:luca-heltai/aspect.git
 [submodule "oce"]
-	path = oce
+	path = _build/oce
 	url = git@github.com:tpaviot/oce.git
+[submodule "ompi"]
+	path = _build/ompi
+	url = https://github.com/open-mpi/ompi-release.git
 [submodule "trilinos"]
-	path = trilinos
+	path = _build/trilinos
 	url = git@github.com:trilinos/Trilinos.git
+[submodule "dealii"]
+	path = _build/dealii
+	url = git@github.com:dealii/dealii.git
 [submodule "deal2lkit"]
-	path = deal2lkit
+	path = _build/deal2lkit
 	url = git@github.com:mathLab/deal2lkit.git
 [submodule "ninja"]
-	path = ninja
+	path = _build/ninja
 	url = https://github.com/martine/ninja
 [submodule "assimp"]
-	path = assimp
+	path = _build/assimp
 	url = git@github.com:assimp/assimp.git
 [submodule "arpack-ng"]
-	path = arpack-ng
+	path = _build/arpack-ng
 	url = https://github.com/opencollab/arpack-ng
 [submodule "sundials"]
-	path = sundials
+	path = _build/sundials
 	url = git@github.com:luca-heltai/sundials.git
 [submodule "pfft"]
-	path = pfft
+	path = _build/pfft
 	url = git@github.com:mpip/pfft.git
