@@ -42,8 +42,8 @@ while read -u10 p; do
   $GIT submodule add --force --name $NAME $URL $MODULE_PATH
   echo "======================================================================="
   echo ""
-  read -u10 p
+
 done
 
 # $GIT submodule sync
-$GIT submodule update --remote --recursive 
+$GIT submodule update --init --recursive 

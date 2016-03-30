@@ -1,4 +1,4 @@
-import sh as sh
+from shutil import copy2, copytree
 import sys
 import subprocess
 from git import *
@@ -76,7 +76,6 @@ def configure(prefix="", flags=""):
     cmd+=" --prefix="+prefix+" "
   if flags!="":
     cmd+=flags
-  print cmd
   return run(cmd)
   
 # Make:
@@ -113,10 +112,23 @@ def cmake(cmake_list_path="", install_path="", flags=""):
 ################################################################################
 def pwd():
   return os.getcwd()
+
+def cp(src, dst):
+  return copy2(src, dst)
+
+def cp_dir(src, dst):
+  try:
+    return copytree(src, dst)
+  except:
+    return "ERROR"
   
 def cd(path="."):
-  return os.chdir(path)
-  
+  try:
+    return os.chdir(path)
+  except os.error, e:
+    if e.errno != errno.EEXIST:
+      raise
+
 def mkdir(directory, status=False):
   try:
     os.mkdir(directory)
@@ -127,7 +139,7 @@ def mkdir(directory, status=False):
       if status:
         return "File exists: " + directory
         
-def export(var, val=""):
+def export_var(var, val=""):
   try:
     os.environ[var] = val
     return True
