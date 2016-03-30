@@ -11,40 +11,70 @@ def print_out(line):
 
 def print_err(line):
   print "                    ERROR  ----> " + line,
-          
+
+def overwite_line(string, max_char=40, str_init="---> ", new_line=False):
+  sys.stdout.write(str_init+max_char*" "+"\r",)
+  if not new_line:
+    sys.stdout.write(str_init+string[0:max_char].rstrip()+"\r",)
+  else:
+    sys.stdout.write(str_init+string[0:max_char].rstrip()+"\n",)
+  sys.stdout.flush()
+
+# GENERAL:
+################################################################################
+def run(cmd, executable="True"):
+  script=""
+  if executable:
+    script = cmd.split()
+  else:
+    with open(cmd, 'rb') as file:
+      script = file.read()
+
+  process = subprocess.Popen(script, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+  # Poll process for new output until finished
+  while True:
+      nextline = process.stdout.readline()
+      if nextline == '' and process.poll() != None:
+          break
+      overwite_line(nextline)
+  overwite_line("DONE", new_line=True)
+
+  exitCode = process.returncode
+
+  print 
+  if (exitCode == 0):
+      return process.communicate()
+  else:
+      raise ProcessException(command, exitCode, output)
+
+# Congigure:
+##############################################################################
+def configure(prefix="", aux_args=""):
+  cmd="./configure"
+  if prefix!="":
+    cmd+=" --prefix="+prefix+" "
+  if aux_args!="":
+    cmd+=aux_args
+  return run(cmd)
+  
+# Make:
+##############################################################################
+def make(np=0, install=False):
+  cmd="make"
+  if np != 0 :
+    cmd+=" -j"+str(np)
+  if install:
+    cmd+=" install"
+  return run(cmd)
+  
+def make_install(np=0):
+  return make(np, install=True)
+
 class BashCMD(object):
   
   def __init__(self):
     print " -> Initialize BashCMD"
-
-  # GENERAL:
-  ##############################################################################
-  def run(self, cmd, executable="True"):
-    script=""
-    if executable:
-      script = cmd
-    else:      
-      with open(cmd, 'rb') as file:
-        script = file.read()
-
-    process = subprocess.Popen(script, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-
-    # Poll process for new output until finished
-    while True:
-        nextline = process.stdout.readline()
-        if nextline == '' and process.poll() != None:
-            break
-        sys.stdout.write("---> "+20*" "+"\r",)
-        sys.stdout.write("---> "+nextline[0:20].rstrip()+"\r",)
-        sys.stdout.flush()
-  
-    output = process.communicate()[0]
-    exitCode = process.returncode
-
-    if (exitCode == 0):
-        return output
-    else:
-        raise ProcessException(command, exitCode, output)
   
   def execute(self, cmd, args=""):
     args=args.split(" ")
@@ -93,26 +123,7 @@ class BashCMD(object):
     if flags != "" :
       args+=""
     return self.execute(cmd, args)
-  
-  # MAKE:
-  ##############################################################################
-  def make_install(self, np=0):
-    cmd="make";
-    args=" "
-    if np != 0 :
-      args+="-j="+str(np)+" "
-    args+="install"
-    return self.execute(cmd, args)
-
-  def configure(self, prefix="", aux_args=""):
-    cmd="./configure"
-    args=" "
-    if prefix!="":
-      args+="--prefix="+prefix+" "
-    if aux_args!="":
-      args+=aux_args
-    return self.execute(cmd,args)
-  
+    
   # GIT:
   ##############################################################################
   def update_submodule(self):

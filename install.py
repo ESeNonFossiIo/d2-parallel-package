@@ -3,6 +3,7 @@
 from ConfigParser import *
 from _libs._utilities.text import *
 from _libs._utilities.bash_cmd import *
+from _libs._utilities.log import *
 
 bash=BashCMD()
 
@@ -24,9 +25,9 @@ np = general.get("default", "np")
 
 
 print BAR
-print " base dir package : .................. " + base_dir
-print " opt install path : .................. " + opt_inst
-print " number of process : ................. " + np
+print log_var("base dir package", base_dir)
+print log_var("opt install path", opt_inst)
+print log_var("number of process", np)
 print BAR
 
 # Ompi:
@@ -36,10 +37,10 @@ name = package.get("ompi", "name")
 path = package.get("ompi", "path")
 hash_pkg = str(bash.get_abbrev()).rstrip()
 print  BAR
-print " name : .............................. " + name
-print " path : .............................. " + path
-print " hash : .............................. " + hash_pkg
-print " build : ............................. " + path+"/build-"+hash_pkg
+print log_var("name", name)
+print log_var("path", path)
+print log_var("hash", hash_pkg)
+print log_var("build", path+"/build-"+hash_pkg)
 print  BAR
 
 # bash.mkdir(path+"/build-"+hash_pkg)
@@ -47,8 +48,9 @@ bash.cd(path)
 bash.unset("CXX CC F77 FC")
 
 install_path=opt_inst+name+"-"+hash_pkg
-bash.run("./autogen.sh")
-bash.configure(prefix=install_path)
+# run("./autogen.sh")
+# configure(prefix=install_path)
+make(np=3)
 
 # bash.cmake("..",install_path)
 

@@ -22,4 +22,3 @@ for sec in package_secs:
   url = package.get(sec, "url")
   # bash.mkdir(base_dir+name)
   bash.add_submodule(url, name, base_dir)
-  

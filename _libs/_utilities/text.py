@@ -1,6 +1,6 @@
 
-BAR="="*50
-bar="-"*50
+BAR="="*80
+bar="-"*80
 Bar="-="*25
 
 def print_title(title="", space=1, mark="->"):
