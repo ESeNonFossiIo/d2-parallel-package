@@ -4,8 +4,8 @@ from ConfigParser import *
 from _libs._utilities.text import *
 from _libs._utilities.bash_cmd import *
 from _libs._utilities.log import *
+from _libs._utilities.utilities import *
 
-bash=BashCMD()
 
 general = ConfigParser()
 general.read("_conf/configuration.cfg")
@@ -33,31 +33,59 @@ print BAR
 # Ompi:
 ################################################################################
 
-name = package.get("ompi", "name")
-path = package.get("ompi", "path")
-hash_pkg = str(bash.get_abbrev()).rstrip()
-print  BAR
-print log_var("name", name)
-print log_var("path", path)
-print log_var("hash", hash_pkg)
-print log_var("build", path+"/build-"+hash_pkg)
-print  BAR
+unset("CXX CC F77 FC")
 
-# bash.mkdir(path+"/build-"+hash_pkg)
-bash.cd(path)
-bash.unset("CXX CC F77 FC")
+package_list = ["ompi" ]
+for pkg in package_list:
+  
+  name         = package.get(pkg, "name")
+  path         = package.get(pkg, "path")
 
-install_path=opt_inst+name+"-"+hash_pkg
-# run("./autogen.sh")
-# configure(prefix=install_path)
-make(np=3)
+  cd(path)
+  print "--->"+pwd()
+  
+  do_autogen   = str_to_bool(package_inst.get(pkg, "autogen"))
+  do_configure = str_to_bool(package_inst.get(pkg, "configure"))
+  do_cmake     = str_to_bool(package_inst.get(pkg, "cmake"))
+  do_make_inst = str_to_bool(package_inst.get(pkg, "make_inst"))
+  hash_pkg     = str(get_abbrev()).rstrip()
 
-# bash.cmake("..",install_path)
+  print BAR
+  print bar
+  print log_var("name", name)
+  print log_var("path", path)
+  print log_var("hash", hash_pkg)
+  print log_var("build", path+"/build-"+hash_pkg)
+  print log_var("autogen", str(do_autogen))
+  print log_var("configure", str(do_configure))
+  print log_var("make_inst", str(do_make_inst))
+  print log_var("cmake", str(do_cmake))
+  print bar
 
-# for sec in package_secs:
-#   print_title(sec)"
-#   name = package.get(sec, "name")"
-#   url = package.get(sec, "url")
-#   # bash.mkdir(base_dir+name)
-#   bash.add_submodule(url, name, base_dir)
+  # Define variables:
+  install_path=opt_inst+name+"-"+hash_pkg
 
+  build=name+"-"+hash_pkg
+  
+  install_path=opt_inst+build
+  
+  if do_autogen:
+    print_title("autogen")
+    run("./autogen.sh")
+    
+  if do_configure:
+    print_title("configure")
+    configure(prefix=install_path)
+
+  if cmake:
+    print_title("cmake")
+    make_dir(build)
+    cd(build)
+    cmake("..",install_path)
+    make_install(np)
+
+  if make_inst:
+    print_title("make install")
+    make_install(np)
+
+  print BAR
