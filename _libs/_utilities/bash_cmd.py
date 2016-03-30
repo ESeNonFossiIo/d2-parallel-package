@@ -34,64 +34,71 @@ def overwite_line(string, max_char=40, str_init="\t---> ", new_line=False):
 
 # GENERAL:
 ################################################################################
-def run(cmd, executable="True"):
+def run(cmd, split=True, executable=True, use_shell=False, show_output=True):
   script=""
   if executable:
-    script = cmd.split()
+    if split:
+      script = cmd.split()
+    else:
+      script = cmd
   else:
     with open(cmd, 'rb') as file:
       script = file.read()
 
-  process = subprocess.Popen(script, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+  process = subprocess.Popen(script, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=use_shell)
 
-  # Poll process for new output until finished
   while True:
-      nextline = process.stdout.readline()
-      if nextline == '' and process.poll() != None:
-          break
+    nextline = process.stdout.readline()
+    if nextline == '' and process.poll() != None:
+        break
+    if show_output:
       overwite_line(nextline)
-  overwite_line("DONE", new_line=True)
+  if show_output:
+    overwite_line("DONE", new_line=True)
 
-  exitCode = process.returncode
-
-  if (exitCode == 0):
-      return process.communicate()[0]
+  if (process.returncode == 0):
+    return process.communicate()
   else:
-      raise ProcessException(command, exitCode, output)
+    print "--> ERROR!"
 
 def get_output(cmd):
   return subprocess.check_output(cmd.split(" "));
 
 # Congigure:
 ##############################################################################
-def configure(prefix="", aux_args=""):
+def autoconf():
+  cmd = which("autoconf")
+  return run(cmd)
+
+def configure(prefix="", flags=""):
   cmd="./configure"
   if prefix!="":
     cmd+=" --prefix="+prefix+" "
-  if aux_args!="":
-    cmd+=aux_args
+  if flags!="":
+    cmd+=flags
+  print cmd
   return run(cmd)
   
 # Make:
 ################################################################################
-def make(np=0, args=""):
-  cmd="make"
-  if np != 0 :
+def make(np=1, args=""):
+  cmd = which("make")
+  if np != 1 :
     cmd+=" -j"+str(np)
   if args!="":
     cmd+=" "+args
   return run(cmd)
   
-def make_install(np=0):
+def make_install(np=1):
   return make(np, "install")
 
-def make_clean(np=0):
+def make_clean(np=1):
   return make(np, "clean")
 
 # CMake:
 ################################################################################
 def cmake(cmake_list_path="", install_path="", flags=""):
-  cmd = "cmake"
+  cmd = which("cmake")
   args = " "
   if install_path != "" :
     args+="-DCMAKE_INSTALL_PREFIX:PATH="+install_path+" "
@@ -99,7 +106,8 @@ def cmake(cmake_list_path="", install_path="", flags=""):
     args+=cmake_list_path+" "
   if flags != "" :
     args+=""
-  return run(cmd, args)
+  cmd+=" "+args
+  return run(cmd)
 
 # Bash:
 ################################################################################
@@ -119,7 +127,7 @@ def mkdir(directory, status=False):
       if status:
         return "File exists: " + directory
         
-def set(var, val=""):
+def export(var, val=""):
   try:
     os.environ[var] = val
     return True
@@ -134,7 +142,22 @@ def unset(var_list):
     return True
   except:
     return False
-                
+
+def source(source_file):
+  cmd="source "+str(source_file)+"; env"
+  out = run(cmd, use_shell=True, split=False, output=False)
+  print out[0]
+
+def add_to_path(new_path):
+  if new_path!="" and os.environ["PATH"].find(new_path)==-1 :
+    os.environ["PATH"] = new_path + os.pathsep + os.environ["PATH"]
+
+def list_dirs(path):
+  return os.listdir(path)
+
+def which(cmd):
+  return get_output("which "+cmd)
+
 # GIT:
 ################################################################################
     

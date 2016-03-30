@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from ConfigParser import *
+
 from _libs._utilities.text import *
 from _libs._utilities.bash_cmd import *
 from _libs._utilities.log import *
@@ -35,7 +36,11 @@ print BAR
 
 unset("CXX CC F77 FC")
 
-package_list = ["ompi" ]
+# package_list = ["ompi", "sundials", "oce" ]
+
+# package_list = [ "p4est" ]
+package_list = [ "trilinos" ]
+
 for pkg in package_list:
   
   name         = package.get(pkg, "name")
@@ -43,11 +48,17 @@ for pkg in package_list:
 
   cd(path)
   print "--->"+pwd()
-  
+
   do_autogen   = str_to_bool(package_inst.get(pkg, "autogen"))
   do_configure = str_to_bool(package_inst.get(pkg, "configure"))
+  if do_configure:
+    do_autoconf=str_to_bool(package_inst.get(pkg, "autoconf"))
+    configure_flags=package_inst.get(pkg, "conf_flags").replace('\n',' ')
   do_cmake     = str_to_bool(package_inst.get(pkg, "cmake"))
   do_make_inst = str_to_bool(package_inst.get(pkg, "make_inst"))
+  do_make_clean = str_to_bool(package_inst.get(pkg, "make_clean"))
+  if do_cmake:
+    cmake_flags=package_inst.get(pkg, "cmake_flags").replace('\n',' ')
   hash_pkg     = str(get_abbrev()).rstrip()
 
   print BAR
@@ -58,34 +69,79 @@ for pkg in package_list:
   print log_var("build", path+"/build-"+hash_pkg)
   print log_var("autogen", str(do_autogen))
   print log_var("configure", str(do_configure))
+  if do_configure:
+    print log_var("autoconf", str(do_autoconf))
+    print log_var("configure_flags", configure_flags)
   print log_var("make_inst", str(do_make_inst))
+  print log_var("make_clean", str(do_make_clean))
   print log_var("cmake", str(do_cmake))
+  if do_cmake:
+    print log_var("cmake_flags", cmake_flags)
   print bar
 
   # Define variables:
+  build="build_"+hash_pkg
   install_path=opt_inst+name+"-"+hash_pkg
-
-  build=name+"-"+hash_pkg
-  
-  install_path=opt_inst+build
   
   if do_autogen:
     print_title("autogen")
     run("./autogen.sh")
     
   if do_configure:
+    if(do_make_clean):
+      make_clean()
+    if(do_autoconf):
+      autoconf()
     print_title("configure")
-    configure(prefix=install_path)
+    mkdir(install_path)
+    print pwd()
+    configure(prefix=install_path, flags=configure_flags)
 
-  if cmake:
+  if do_cmake:
     print_title("cmake")
-    make_dir(build)
+    mkdir(build)
     cd(build)
-    cmake("..",install_path)
-    make_install(np)
+    cmake( cmake_list_path = "..", install_path = install_path, flags = cmake_flags)
 
-  if make_inst:
+  if do_make_inst:
     print_title("make install")
     make_install(np)
 
-  print BAR
+  # Update env settings:
+  # TODO: add .conf...
+  for line in list_dirs(opt_inst):
+    path_library=opt_inst+line
+    name=line.split("-")[0].upper()
+    export(name+"_DIR",path_library)
+    add_to_path(path_library+"/bin")
+    print " Library : " + name
+    print "   path  : " + path_library
+    # print os.environ
+
+  # Additional varibales set within OMPI
+  try: 
+    OMPI_DIR=os.environ["OMPI_DIR"]
+    export("MPI_HOME",OMPI_DIR)
+    export("CC",which("mpicc"))
+    export("CXX",which("mpic++"))
+    export("F77",which("mpif77"))
+    export("FC",which("mpif77"))
+    export("F90",which("mpif90"))
+  except:
+    pass
+    
+  # Additional libraries downloaded within PETSc
+  try:
+    PETSC_DIR=os.environ["PETSC_DIR"]
+    export("PETSC_ARCH","")
+    export("OPENMPI_DIR",PETSC_DIR)
+    export("HDF5_DIR",PETSC_DIR)
+    export("METIS_DIR",PETSC_DIR)
+    export("PARMETIS_DIR",PETSC_DIR)
+    export("SUPERLU_DIST_DIR",PETSC_DIR)
+    export("SUPERLU_DIR",PETSC_DIR)
+    export("SCALAPACK_DIR",PETSC_DIR)
+    export("MUMPS_DIR",PETSC_DIR)
+    export("HYPRE_DIR",PETSC_DIR)
+  except:
+    pass
