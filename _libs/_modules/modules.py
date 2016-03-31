@@ -7,13 +7,14 @@ from _libs._utilities.utilities import *
 
 class ModuleInstaller(object):  
   def __init__(self, name):
-    self.general = SafeConfigParser()
-    self.general.read("_conf/configuration.cfg")
-    print self.general.sections()
-    self.base_dir = self.general.get("default", "base_dir")
-    self.opt_inst = self.general.get("default", "opt_inst")
-    self.np = self.general.get("default", "np")
-    self.export_filename = self.opt_inst+"export.conf"
+    with open("_conf/configuration.cfg") as fp:
+      self.general = SafeConfigParser()
+      self.general.readfp(fp)
+      self.root = self.general.get("default", "root")
+      self.base_dir = self.general.get("default", "base_dir")
+      self.opt_inst = self.general.get("default", "opt_inst")
+      self.np = self.general.get("default", "np")
+      self.export_filename = self.opt_inst+"export.conf"
 
     self.name = name
     
@@ -26,7 +27,10 @@ class ModuleInstaller(object):
       self.hash_pkg = str(get_abbrev()).rstrip()
 
       self.opt_inst_dir = self.opt_inst+self.name+"-"+self.hash_pkg
-    
+
+  def __del__(self):
+    cd(self.root)
+  
   def compile(self):
     print " --> COMPILE"
 

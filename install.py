@@ -26,4 +26,3 @@ for installer in [  ninja.NinjaInstaller,
   inst.install()
   inst.export()
   del inst
-  print "======================"
