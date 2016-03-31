@@ -57,7 +57,8 @@ def run(cmd, split=True, executable=True, use_shell=False, show_output=True):
     overwite_line("DONE", new_line=True)
   
   output=process.communicate()
-  
+  print output
+  print cmd
   if (process.returncode == 0):
     return output
   else:
@@ -150,7 +151,7 @@ def export_var(var, val=""):
   
 def unset(var_list):
   try:
-    var_list=var.split(" ")
+    var_list=var_list.split(" ")
     for var in var_list:
       os.unsetenv(var)
     return True
