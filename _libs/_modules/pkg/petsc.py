@@ -8,7 +8,7 @@ class PetscInstaller(ModuleInstaller):
                             --with-mpi-dir="+os.environ["OMPI_DIR"]+" \
                             --with-sundials-dir="+os.environ["SUNDIALS_DIR"]+" \
                             --with-shared-libraries \
-                            --with-external-packages-dir=$EXT \
+                            --with-external-packages-dir=./petsc-external \
                             --download-parmetis \
                             --download-metis \
                             --download-hypre \
@@ -20,6 +20,7 @@ class PetscInstaller(ModuleInstaller):
   
   def compile(self):
     super(PetscInstaller, self).compile()
+    unset("PETSC_DIR PETSC_ARCH CC CXX F77 F90 FC")
     configure(  prefix=self.opt_inst_dir, 
                 flags=self.configure_flags)
 
