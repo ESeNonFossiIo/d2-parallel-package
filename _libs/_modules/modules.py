@@ -6,7 +6,7 @@ from _libs._utilities.log import *
 from _libs._utilities.utilities import *
 
 class ModuleInstaller(object):  
-  def __init__(self, name, general=SafeConfigParser(), package):
+  def __init__(self, name):
     self.general = SafeConfigParser()
     self.general.read("_conf/configuration.cfg")
     print self.general.sections()
