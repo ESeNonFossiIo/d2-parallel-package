@@ -11,7 +11,7 @@ class OpenMPInstaller(ModuleInstaller):
 
   def install(self):
     super(OpenMPInstaller, self).install()
-    make(np=self.np)
+    make_install(np=self.np)
 
   def export(self):
     super(OpenMPInstaller, self).export()
