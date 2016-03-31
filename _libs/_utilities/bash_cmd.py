@@ -46,7 +46,7 @@ def run(cmd, split=True, executable=True, use_shell=False, show_output=True):
       script = file.read()
 
   process = subprocess.Popen(script, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=use_shell)
-
+  
   while True:
     nextline = process.stdout.readline()
     if nextline == '' and process.poll() != None:
@@ -55,11 +55,13 @@ def run(cmd, split=True, executable=True, use_shell=False, show_output=True):
       overwite_line(nextline)
   if show_output:
     overwite_line("DONE", new_line=True)
-
+  
+  output=process.communicate()
+  
   if (process.returncode == 0):
-    return process.communicate()
+    return output
   else:
-    print "--> ERROR!"
+    raise NameError('Error in run function!')
 
 def get_output(cmd):
   return subprocess.check_output(cmd.split(" "));
@@ -101,10 +103,10 @@ def cmake(cmake_list_path="", install_path="", flags=""):
   args = " "
   if install_path != "" :
     args+="-DCMAKE_INSTALL_PREFIX:PATH="+install_path+" "
+  if flags != "" :
+    args+=flags+" "
   if cmake_list_path != "" :
     args+=cmake_list_path+" "
-  if flags != "" :
-    args+=""
   cmd+=" "+args
   return run(cmd)
 

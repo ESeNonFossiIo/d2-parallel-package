@@ -10,8 +10,7 @@ class Deal2lkitInstaller(ModuleInstaller):
     mkdir(build)
     cd(build)
     cmake(  cmake_list_path = "..", 
-            install_path = self.opt_inst_dir, 
-            flags = self.cmake_flags )
+            install_path = self.opt_inst_dir )
 
   def install(self):
     super(Deal2lkitInstaller, self).install()
