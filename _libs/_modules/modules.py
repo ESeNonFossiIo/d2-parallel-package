@@ -6,10 +6,10 @@ from _libs._utilities.log import *
 from _libs._utilities.utilities import *
 
 class ModuleInstaller(object):  
-  def __init__(self, name):
-    self.general = ConfigParser()
+  def __init__(self, name, general=SafeConfigParser(), package):
+    self.general = SafeConfigParser()
     self.general.read("_conf/configuration.cfg")
-
+    print self.general.sections()
     self.base_dir = self.general.get("default", "base_dir")
     self.opt_inst = self.general.get("default", "opt_inst")
     self.np = self.general.get("default", "np")
@@ -18,7 +18,7 @@ class ModuleInstaller(object):
     self.name = name
     
     if name!="module installer":
-      self.package = ConfigParser()
+      self.package = SafeConfigParser()
       self.package.read("_conf/packages.cfg")
 
       self.path = self.package.get(self.name, "path")
