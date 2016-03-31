@@ -5,6 +5,7 @@ from _libs._utilities.bash_cmd import *
 from _libs._utilities.log import *
 from _libs._utilities.utilities import *
 
+
 class ModuleInstaller(object):  
   def __init__(self, name):
     with open("_conf/configuration.cfg") as fp:
