@@ -8,52 +8,22 @@ module_installer.init_export_file()
 
 unset("CXX CC F77 FC")
 
-# [ ninja.NinjaInstaller(), 
-#   ompi.OpenMPInstaller(), 
-#   sundials.SundialsInstaller(), 
-#   trilinos.TrilinosInstaller(),
-#   oce.OCEInstaller(),
-#   dealii.DealIIInstaller(), 
-#   deal2lkit.Deal2lkitInstaller()]
-for installer in [oce.OCEInstaller()]:
+
+for installer in [  ninja.NinjaInstaller(), 
+                    ompi.OpenMPInstaller(), 
+                    sundials.SundialsInstaller(), 
+                    petsc.PetscInstaller(),
+                    slepc.SlepcInstaller(),
+                    p4est.P4estInstaller(),
+                    trilinos.TrilinosInstaller(),
+                    oce.OCEInstaller(),
+                    dealii.DealIIInstaller(), 
+                    deal2lkit.Deal2lkitInstaller()]:
   installer.print_status()
   installer.compile()
   installer.install()
   installer.export()
-
-# from ConfigParser import *
-# 
-# from _libs._utilities.text import *
-# from _libs._utilities.bash_cmd import *
-# from _libs._utilities.log import *
-# from _libs._utilities.utilities import *
-# 
-# 
-# general = ConfigParser()
-# general.read("_conf/configuration.cfg")
-# general_secs=general.sections()
-# 
-# package = ConfigParser()
-# package.read("_conf/packages.cfg")
-# package_secs=package.sections()
-# 
-# package_inst = ConfigParser()
-# package_inst.read("_conf/packages_inst.cfg")
-# package_inst_secs=package.sections()
-# 
-# base_dir = general.get("default", "base_dir")
-# opt_inst = general.get("default", "opt_inst")
-# np = general.get("default", "np")
-# 
-# 
-# print BAR
-# print log_var("base dir package", base_dir)
-# print log_var("opt install path", opt_inst)
-# print log_var("number of process", np)
-# print BAR
-# 
-# # Ompi:
-# ################################################################################
+###############################
 # 
 # 
 # 
@@ -153,16 +123,6 @@ for installer in [oce.OCEInstaller()]:
 #     
 #   # Additional libraries downloaded within PETSc
 #   try:
-#     PETSC_DIR=os.environ["PETSC_DIR"]
-#     export("PETSC_ARCH","")
-#     export("OPENMPI_DIR",PETSC_DIR)
-#     export("HDF5_DIR",PETSC_DIR)
-#     export("METIS_DIR",PETSC_DIR)
-#     export("PARMETIS_DIR",PETSC_DIR)
-#     export("SUPERLU_DIST_DIR",PETSC_DIR)
-#     export("SUPERLU_DIR",PETSC_DIR)
-#     export("SCALAPACK_DIR",PETSC_DIR)
-#     export("MUMPS_DIR",PETSC_DIR)
-#     export("HYPRE_DIR",PETSC_DIR)
+
 #   except:
 #     pass
