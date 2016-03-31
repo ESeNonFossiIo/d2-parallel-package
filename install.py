@@ -9,7 +9,6 @@ del module_installer
 
 unset("CXX CC F77 FC")
 
-
 for installer in [  ninja.NinjaInstaller, 
                     ompi.OpenMPInstaller, 
                     sundials.SundialsInstaller, 
